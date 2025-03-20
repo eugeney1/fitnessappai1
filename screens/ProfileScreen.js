@@ -37,7 +37,7 @@ export default function ProfileScreen() {
       <View style={styles.statsContainer}>
         <StatItem count="10" label="Following" />
         <StatItem count="12" label="Meal Plans" />
-        <StatItem count="30 label="Likes" />
+        <StatItem count="30"label="Likes" />
       </View>
 
       <TouchableOpacity style={styles.editButton}>
