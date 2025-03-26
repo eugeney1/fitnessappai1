@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Dimensions } from 'react-native';
 import VideoCard from '../components/videoCard';
 
 const { height } = Dimensions.get('window');
-const API_KEY = 'AIzaSyAfo5Phc777VC2z5HHm3U2_RZ_axLwaHSE';
+const API_KEY = 'AIzaSyDol3xpH7qwuO4MAFRD20PbQzaoi91brJ8';
 
 // 🔥 Hardcoded search query (change this to anything)
 const HARDCODED_QUERY = 'healthy meal prep recipes short videos';

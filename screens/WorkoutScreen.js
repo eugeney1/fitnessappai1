@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, FlatList, StyleSheet, Dimensions } from 'react-native';
 import VideoCard from '../components/videoCard';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { height } = Dimensions.get('window');
-const API_KEY = 'AIzaSyAfo5Phc777VC2z5HHm3U2_RZ_axLwaHSE';
+const API_KEY = 'AIzaSyDol3xpH7qwuO4MAFRD20PbQzaoi91brJ8';
 
 // 🔥 Hardcoded search query (change this to anything)
-const HARDCODED_QUERY = 'workout short videos';
+const HARDCODED_QUERY = ' gym workout short videos';
 
 const ShortsScreen = () => {
   const [videos, setVideos] = useState([]);
@@ -56,6 +57,7 @@ const ShortsScreen = () => {
         })}
       />
     </View>
+    
   );
 };
 
