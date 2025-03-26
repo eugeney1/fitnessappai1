@@ -40,17 +40,21 @@ export default function UserStatsScreen() {
   const [expandedSection, setExpandedSection] = useState({});
 
   // Theme-related states
-  const [theme, setTheme] = useState('Sun');
-  const [gradientColors, setGradientColors] = useState(['#FF9A9E', '#FAD0C4', '#A1C4FD']);
-  const [celestialOpacity] = useState(new Animated.Value(1));
-  const [particles, setParticles] = useState([]);
-
-  const sunAnim = new Animated.Value(0);
-  const dropletAnim = new Animated.Value(0);
-  const starAnims = Array(20).fill().map(() => new Animated.Value(0));
-
-  // Themes object with additional themes
+  // New default theme matching ChatbotScreen colors
   const themes = {
+    Default: {
+      gradient: ['#e0f2f1', '#e0f2f1'],
+      celestialColor: '#004d40',
+      particleColor: 'rgba(0, 77, 64, 0.7)',
+      particleType: 'default',
+      primaryColor: '#004d40',
+      secondaryColor: '#004d40',
+      cardBackground: 'rgba(255, 255, 255, 0.95)',
+      accentColor: '#00796b',
+      textColor: '#004d40',
+      headerColor: '#004d40',
+    },
+    // Other themes can remain here if you want to toggle between them later.
     Sun: {
       gradient: ['#FF9A9E', '#FAD0C4', '#A1C4FD'],
       celestialColor: '#FFD700',
@@ -63,79 +67,17 @@ export default function UserStatsScreen() {
       textColor: '#333',
       headerColor: '#fff',
     },
-    Moon: {
-      gradient: ['#1A237E', '#283593', '#3F51B5'],
-      celestialColor: '#E0E0E0',
-      particleColor: 'rgba(255, 255, 255, 0.8)',
-      particleType: 'star',
-      primaryColor: '#4A90E2',
-      secondaryColor: '#2E6DB4',
-      cardBackground: 'rgba(30, 40, 80, 0.95)',
-      accentColor: '#42A5F5',
-      textColor: '#E0E0E0',
-      headerColor: '#E0E0E0',
-    },
-    BloodMoon: {
-      gradient: ['#B71C1C', '#D32F2F', '#EF5350'],
-      celestialColor: '#D32F2F',
-      particleColor: 'rgba(255, 87, 34, 0.7)',
-      particleType: 'ember',
-      primaryColor: '#FF5722',
-      secondaryColor: '#D84315',
-      cardBackground: 'rgba(80, 20, 20, 0.95)',
-      accentColor: '#EF5350',
-      textColor: '#FFEBEE',
-      headerColor: '#FFEBEE',
-    },
-    Desert: {
-      gradient: ['#EDC9AF', '#C2B280', '#A67B5B'], // sandy, earthy tones
-      celestialColor: '#D2B48C',
-      particleColor: 'rgba(210, 180, 140, 0.7)',
-      particleType: 'sand',
-      primaryColor: '#DAA520',
-      secondaryColor: '#B8860B',
-      cardBackground: 'rgba(245, 222, 179, 0.95)',
-      accentColor: '#CD853F',
-      textColor: '#5D4037',
-      headerColor: '#3E2723',
-    },
-    Nature: {
-      gradient: ['#8BC34A', '#AED581', '#DCEDC8'], // greens and light earth tones
-      celestialColor: '#4CAF50',
-      particleColor: 'rgba(139, 195, 74, 0.7)',
-      particleType: 'leaf',
-      primaryColor: '#388E3C',
-      secondaryColor: '#2E7D32',
-      cardBackground: 'rgba(200, 230, 201, 0.95)',
-      accentColor: '#66BB6A',
-      textColor: '#33691E',
-      headerColor: '#1B5E20',
-    },
-    Ocean: {
-      gradient: ['#2193b0', '#6dd5ed', '#b2ebf2'], // cool blues and teals
-      celestialColor: '#00BCD4',
-      particleColor: 'rgba(0, 150, 136, 0.7)',
-      particleType: 'bubble',
-      primaryColor: '#0097A7',
-      secondaryColor: '#00796B',
-      cardBackground: 'rgba(178, 235, 242, 0.95)',
-      accentColor: '#00ACC1',
-      textColor: '#006064',
-      headerColor: '#004D40',
-    },
-    Lava: {
-      gradient: ['#FF5722', '#E64A19', '#D84315'], // fiery reds and oranges
-      celestialColor: '#FF8A65',
-      particleColor: 'rgba(255, 87, 34, 0.7)',
-      particleType: 'ember',
-      primaryColor: '#BF360C',
-      secondaryColor: '#D32F2F',
-      cardBackground: 'rgba(255, 205, 210, 0.95)',
-      accentColor: '#E53935',
-      textColor: '#B71C1C',
-      headerColor: '#FFCDD2',
-    },
+    // ...other themes
   };
+
+  const [theme, setTheme] = useState('Default');
+  const [gradientColors, setGradientColors] = useState(themes[theme].gradient);
+  const [celestialOpacity] = useState(new Animated.Value(1));
+  const [particles, setParticles] = useState([]);
+
+  const sunAnim = new Animated.Value(0);
+  const dropletAnim = new Animated.Value(0);
+  const starAnims = Array(20).fill().map(() => new Animated.Value(0));
 
   useEffect(() => {
     // Sun animation loop

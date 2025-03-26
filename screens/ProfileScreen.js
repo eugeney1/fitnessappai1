@@ -1,19 +1,23 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Expo's built-in icons
-import { LinearGradient } from 'expo-linear-gradient'; // Expo's gradient component
+import { 
+  SafeAreaView, 
+  View, 
+  Text, 
+  StyleSheet, 
+  Image, 
+  TouchableOpacity, 
+  StatusBar 
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ProfileScreen() {
   return (
-    <LinearGradient
-      colors={['#4c669f', '#3b5998', '#192f6a']}
-      style={styles.container}
-    >
-      <StatusBar barStyle="light-content" />
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       
       <View style={styles.header}>
         <TouchableOpacity style={styles.iconButton}>
-          <Ionicons name="add" size={24} color="white" />
+          <Ionicons name="add" size={24} color="#004d40" />
         </TouchableOpacity>
         
         <View style={styles.profilePicContainer}>
@@ -25,7 +29,7 @@ export default function ProfileScreen() {
         </View>
         
         <TouchableOpacity style={styles.iconButton}>
-          <Ionicons name="settings-outline" size={24} color="white" />
+          <Ionicons name="settings-outline" size={24} color="#004d40" />
         </TouchableOpacity>
       </View>
 
@@ -37,13 +41,13 @@ export default function ProfileScreen() {
       <View style={styles.statsContainer}>
         <StatItem count="10" label="Following" />
         <StatItem count="12" label="Meal Plans" />
-        <StatItem count="30"label="Likes" />
+        <StatItem count="30" label="Likes" />
       </View>
 
       <TouchableOpacity style={styles.editButton}>
         <Text style={styles.editButtonText}>Edit Profile</Text>
       </TouchableOpacity>
-    </LinearGradient>
+    </SafeAreaView>
   );
 }
 
@@ -57,6 +61,7 @@ const StatItem = ({ count, label }) => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#e0f2f1',
     paddingTop: 40,
     paddingHorizontal: 20,
   },
@@ -77,7 +82,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: 'white',
+    borderColor: '#004d40',
   },
   statusIndicator: {
     width: 20,
@@ -88,7 +93,7 @@ const styles = StyleSheet.create({
     bottom: 5,
     right: 5,
     borderWidth: 2,
-    borderColor: 'white',
+    borderColor: '#e0f2f1',
   },
   userInfo: {
     alignItems: 'center',
@@ -97,20 +102,26 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#004d40',
     marginBottom: 5,
   },
   bio: {
     fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: '#666',
   },
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: '#fff',
     borderRadius: 15,
     padding: 15,
     marginBottom: 20,
+    // Shadow for iOS
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    // Elevation for Android
+    elevation: 2,
   },
   statItem: {
     alignItems: 'center',
@@ -118,22 +129,28 @@ const styles = StyleSheet.create({
   statCount: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#004d40',
   },
   statLabel: {
     fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: '#666',
   },
   editButton: {
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,
     alignSelf: 'center',
+    // Shadow for iOS
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    // Elevation for Android
+    elevation: 2,
   },
   editButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#192f6a',
+    color: '#004d40',
   },
 });
