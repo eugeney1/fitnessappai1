@@ -1,10 +1,38 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function WorkoutSearchScreen({ navigation }) {
-  const recentSearches = ["Recent Search 1", "Recent Search 2", "Recent Search 3"];
-  const trendingWorkouts = ["Trending Work Out #1", "Trending Work Out #2", "Trending Work Out #3", "Trending Work Out #4"];
+  const [query, setQuery] = useState('');
+  const [recentSearches, setRecentSearches] = useState([
+    'Yoga for beginners',
+    'HIIT cardio',
+    'Full body strength',
+  ]);
+  const trendingWorkouts = [
+    'Quick abs workout',
+    'No equipment training',
+    'Stretching routine',
+    '10 min morning yoga',
+  ];
+
+  const handleSearch = (searchText) => {
+    if (!searchText.trim()) return;
+    // Navigate to WorkoutScreen with the query
+    navigation.navigate('Workout', { query: searchText });
+
+    // Add to recent (avoid duplicates)
+    if (!recentSearches.includes(searchText)) {
+      setRecentSearches([searchText, ...recentSearches.slice(0, 4)]);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -13,37 +41,53 @@ export default function WorkoutSearchScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-left" size={24} color="black" />
         </TouchableOpacity>
+
         <View style={styles.searchBar}>
-          <TouchableOpacity onPress={() => navigation.navigate('WorkoutFilter')}>
-            <Icon name="sliders" size={20} color="black" />
+          <TouchableOpacity>
+            <Icon name="sliders" size={18} color="black" />
           </TouchableOpacity>
-          <TextInput style={styles.searchInput} placeholder="Search workouts..." />
+
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search workouts..."
+            value={query}
+            onChangeText={setQuery}
+            onSubmitEditing={() => handleSearch(query)}
+          />
+
           <TouchableOpacity onPress={() => alert('Voice search activated!')}>
-            <Icon name="microphone" size={20} color="black" />
+            <Icon name="microphone" size={18} color="black" />
           </TouchableOpacity>
         </View>
-        <Text style={styles.searchText}>Search</Text>
+
+        <TouchableOpacity onPress={() => handleSearch(query)}>
+          <Text style={styles.searchText}>Search</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Recent Searches */}
+      <Text style={styles.sectionHeader}>🕓 Recent Searches</Text>
       <FlatList
         data={recentSearches}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
-          <View style={styles.searchItem}>
-            <Text>⏳ {item}</Text>
-            <TouchableOpacity>
-              <Icon name="times" size={16} color="black" />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={() => handleSearch(item)}>
+            <View style={styles.searchItem}>
+              <Text>⏳ {item}</Text>
+              <TouchableOpacity>
+                <Icon name="times" size={14} color="gray" />
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
         )}
       />
-      <TouchableOpacity><Text style={styles.showMore}>See More ⌄</Text></TouchableOpacity>
 
       {/* Trending Searches */}
-      <Text style={styles.sectionHeader}>🔥 Trending Searches</Text>
+      <Text style={styles.sectionHeader}>🔥 Trending Workouts</Text>
       {trendingWorkouts.map((item, index) => (
-        <Text key={index} style={styles.trendingItem}>{item}</Text>
+        <TouchableOpacity key={index} onPress={() => handleSearch(item)}>
+          <Text style={styles.trendingItem}># {item}</Text>
+        </TouchableOpacity>
       ))}
     </View>
   );
@@ -51,13 +95,45 @@ export default function WorkoutSearchScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: '#fff' },
-  searchHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
-  searchBar: { flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#ddd', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5, marginLeft: 10 },
-  searchInput: { flex: 1, marginLeft: 10 },
-  searchText: { color: 'red', fontSize: 16, marginLeft: 10 },
-  searchItem: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },
-  sectionHeader: { fontSize: 16, fontWeight: 'bold', marginTop: 20, color: 'red' },
-  trendingItem: { marginTop: 5 },
-  showMore: { color: 'blue', marginTop: 10 }
+  searchHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  searchBar: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#eee',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginLeft: 10,
+  },
+  searchInput: {
+    flex: 1,
+    paddingHorizontal: 8,
+  },
+  searchText: {
+    color: 'red',
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  searchItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    borderBottomWidth: 0.5,
+    borderColor: '#ddd',
+  },
+  sectionHeader: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 20,
+    color: '#333',
+  },
+  trendingItem: {
+    paddingVertical: 6,
+    fontSize: 14,
+    color: '#555',
+  },
 });
-
